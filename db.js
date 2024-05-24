@@ -1,20 +1,18 @@
-const mysql = require('mysql');
-const mongoose = require('mongoose');
+const { Sequelize } = require('sequelize');
 
-const mysqlConnect = mysql.createConnection({
+const sequelize = new Sequelize('serverfarm_post_db', 'root', 'password', {
   host: 'localhost',
-  user: 'root',
-  password: 'password',
-  database: 'serverfarm_db',
+  dialect: 'mysql',
 });
 
-mysqlConnect.connect((err) => {
-  if (err) {
-    console.error('Error connecting to MySQL:', err);
-    return;
-  }
-  console.log('Connected to MySQL successfully!');
-});
+sequelize
+  .authenticate()
+  .then(() => {
+    console.log('Connection has been established successfully.');
+  })
+  .catch((err) => {
+    console.error('Unable to connect to the database:', err);
+  });
 
 mongoose
   .connect('mongodb://localhost:27017/serverfarm_post_db', {
@@ -28,4 +26,4 @@ mongoose
     console.error('Error connecting to MongoDB:', err);
   });
 
-module.exports = { mysqlConnect, mongoose };
+module.exports = { sequelize, mongoose };
