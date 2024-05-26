@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 
-const secretKey = 'secret_key_for_server_farm_app';
+const secretKey = 'your_secret_key';
 
 const authenticateToken = (req, res, next) => {
   const authHeader = req.headers['authorization'];
