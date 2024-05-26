@@ -28,12 +28,22 @@ services:
     build: ./express
     volumes:
       - ./express:/usr/src/app
-      - /usr/src/app/node_modules
     depends_on:
       - mongodb
       - mysql
     ports: 
       - 5000:5000
+    networks:
+      - local-network
+
+  frontend:
+    build: ./frontend
+    volumes:
+      - ./frontend:/usr/src/frontend
+    depends_on:
+      - express
+    ports: 
+      - 3000:3000
     networks:
       - local-network
 
