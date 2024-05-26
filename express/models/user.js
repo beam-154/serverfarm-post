@@ -1,3 +1,4 @@
+const Sequelize = require('sequelize');
 const { sequelize } = require('../db');
 
 const User = sequelize.define('User', {
@@ -23,3 +24,5 @@ User.sync({ force: false })
   .catch((err) => {
     console.error('Unable to create table : ', err);
   });
+
+module.exports = User;

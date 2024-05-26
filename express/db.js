@@ -1,7 +1,8 @@
 const { Sequelize } = require('sequelize');
+const mongoose = require('mongoose');
 
-const sequelize = new Sequelize('serverfarm_post_db', 'root', 'password', {
-  host: 'localhost',
+const sequelize = new Sequelize('serverfarm_db', 'root', 'password', {
+  host: 'mysql',
   dialect: 'mysql',
 });
 
@@ -15,7 +16,7 @@ sequelize
   });
 
 mongoose
-  .connect('mongodb://localhost:27017/serverfarm_post_db', {
+  .connect('mongodb://mongodb:27017/serverfarm_post_db', {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })

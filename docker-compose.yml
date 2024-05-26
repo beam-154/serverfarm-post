@@ -8,6 +8,8 @@ services:
       - mongo_data:/data/db
     ports:
       - 27017:27017
+    networks:
+      - local-network
   
   mysql:
     image: mysql:latest
@@ -19,14 +21,25 @@ services:
       - mysql_data:/var/lib/mysql
     ports:
       - 3306:3306
+    networks:
+      - local-network
 
   express:
     build: ./express
+    volumes:
+      - ./express:/usr/src/app
+      - /usr/src/app/node_modules
     depends_on:
       - mongodb
       - mysql
     ports: 
       - 5000:5000
+    networks:
+      - local-network
+
+networks:
+  local-network:
+    driver: bridge
 
 volumes:
   mongo_data:
