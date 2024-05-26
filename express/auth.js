@@ -1,5 +1,4 @@
 const jwt = require('jsonwebtoken');
-const bcrypt = require('bcryptjs');
 
 const secretKey = 'your_secret_key';
 
@@ -18,4 +17,4 @@ const authenticateToken = (req, res, next) => {
   });
 };
 
-module.exports = { authenticateToken };
+module.exports = { authenticateToken, secretKey };
