@@ -21,7 +21,7 @@ router.post('/login', async (req, res) => {
       return res.status(401).json({ message: 'Invalid password' });
     }
 
-    const token = jwt.sign({ id: user, id }, secretKey, { expiresIn: '1h' });
+    const token = jwt.sign({ id: user.id }, secretKey, { expiresIn: '1h' });
     res.status(200).json({ token });
   } catch (error) {
     console.log('Login error: ', error);
@@ -44,7 +44,7 @@ router.post('/register', async (req, res) => {
 
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = await User.create({
-      username,
+      name: username,
       email,
       password: hashedPassword,
     });

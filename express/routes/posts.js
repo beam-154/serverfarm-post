@@ -12,62 +12,62 @@ router.post('/', authenticateToken, (req, res) => {
     userId,
   });
 
-  newPost.save((err, post) => {
-    if (err) {
-      res.status(500).send(err);
-    } else {
+  newPost
+    .save()
+    .then((post) => {
       res.status(201).send(post);
-    }
-  });
+    })
+    .catch((err) => {
+      res.status(500).send(err);
+    });
 });
 
 router.get('/', authenticateToken, (req, res) => {
   const userId = req.user.id;
-  Post.find({ userId }, (err, posts) => {
-    if (err) {
-      res.status(500).send(err);
-    } else {
+  Post.find({ userId })
+    .then((posts) => {
       res.status(200).send(posts);
-    }
-  });
+    })
+    .catch((err) => {
+      res.status(500).send(err);
+    });
 });
 
 router.delete('/:postId', authenticateToken, (req, res) => {
   const postId = req.params.postId;
   const userId = req.user.id;
-  Post.findByIdAndDelete(postId, (err, post) => {
-    if (err) {
+  Post.findByIdAndDelete(postId)
+    .then((post) => {
+      if (!post) {
+        res.status(404).send('Post not found');
+      } else if (post.userId !== userId) {
+        res.status(403).send('Unauthorized');
+      } else {
+        res.status(200).send('Post deleted successfully');
+      }
+    })
+    .catch((err) => {
       res.status(500).send(err);
-    } else if (!post) {
-      res.status(404).send('Post not found');
-    } else if (post.userId !== userId) {
-      res.status(403).send('Unauthorized');
-    } else {
-      res.status(200).send('Post deleted successfully');
-    }
-  });
+    });
 });
 
 router.put('/:postId', authenticateToken, (req, res) => {
   const postId = req.params.postId;
   const userId = req.user.id;
   const { title, content } = req.body;
-  Post.findByIdAndUpdate(
-    postId,
-    { title, content },
-    { new: true },
-    (err, post) => {
-      if (err) {
-        res.status(500).send(err);
-      } else if (!post) {
+  Post.findByIdAndUpdate(postId, { title, content }, { new: true })
+    .then((post) => {
+      if (!post) {
         res.status(404).send('Post not found');
       } else if (post.userId !== userId) {
         res.status(403).send('Unauthorized');
       } else {
         res.status(200).send(post);
       }
-    }
-  );
+    })
+    .catch((err) => {
+      res.status(500).send(err);
+    });
 });
 
 module.exports = router;
