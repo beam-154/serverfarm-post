@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
+import { AuthContext } from '../../context/AuthContext';
 
-const LoginForm = () => {
+function LoginForm() {
+  const { loginUser } = useContext(AuthContext);
   const {
     register,
     handleSubmit,
@@ -13,6 +15,7 @@ const LoginForm = () => {
 
   const onSubmit = async (data) => {
     try {
+      await loginUser({ email: data.email, password: data.password });
       navigate('/dashboard');
     } catch (error) {
       setLoginError('Authentication failed.');
@@ -21,7 +24,10 @@ const LoginForm = () => {
 
   return (
     <div className="flex flex-col gap-4 mt-10 sm:m-auto sm:w-full sm:max-w-sm bg-gray-700 p-4 rounded-lg">
-      <form className="space-y-3 flex flex-col">
+      <form
+        className="space-y-3 flex flex-col"
+        onSubmit={handleSubmit(onSubmit)}
+      >
         {loginError && <span className="notif-error">{loginError}</span>}
 
         <label
@@ -35,7 +41,9 @@ const LoginForm = () => {
           {...register('email', { required: true })}
           className="form-input"
         />
-        {errors.username && <span className='form-error'>Username is required</span>}
+        {errors.username && (
+          <span className="form-error">Username is required</span>
+        )}
 
         <label
           htmlFor="email"
@@ -48,7 +56,9 @@ const LoginForm = () => {
           {...register('password', { required: true })}
           className="form-input"
         />
-        {errors.password && <span className='form-error'>Password is required</span>}
+        {errors.password && (
+          <span className="form-error">Password is required</span>
+        )}
 
         <button type="submit" className="form-button">
           Login
@@ -60,6 +70,6 @@ const LoginForm = () => {
       </Link>
     </div>
   );
-};
+}
 
 export default LoginForm;

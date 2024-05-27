@@ -1,8 +1,22 @@
-import React, { useContext, useEffect } from 'react';
+import { useContext, useEffect } from 'react';
+import { AuthContext } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 
-const MainComponent = () => {
+function MainComponent() {
+  const {
+    authState: { isAuthenticated },
+  } = useContext(AuthContext);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate('/dashboard');
+    } else {
+      navigate('/login');
+    }
+  }, [isAuthenticated, navigate]);
+
   return null;
-};
+}
 
 export default MainComponent;

@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Link, useNavigate } from 'react-router-dom';
+import { AuthContext } from '../../context/AuthContext';
 
 const passwordSchema = Yup.object().shape({
   username: Yup.string().required(),
@@ -14,7 +15,8 @@ const passwordSchema = Yup.object().shape({
   ),
 });
 
-const RegisterForm = () => {
+function RegisterForm () {
+  const { registerUser } = useContext(AuthContext);
   const {
     register,
     handleSubmit,
@@ -28,6 +30,11 @@ const RegisterForm = () => {
 
   const onSubmit = async (data) => {
     try {
+      await registerUser({
+        username: data.username,
+        email: data.email,
+        password: data.password,
+      });
       navigate('/login');
     } catch (error) {
       setRegisterError('Failed to register. Please try again.');
