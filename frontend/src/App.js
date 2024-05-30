@@ -4,6 +4,7 @@ import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
+import CreatePost from './pages/CreatePost';
 
 import AuthLayoutWrapper from './components/Layout/AuthLayoutWrapper';
 import { AuthProvider } from './context/AuthContext';
@@ -23,6 +24,7 @@ function App() {
               <Route path="/register" element={<Register />} />
               <Route element={<AuthLayoutWrapper />}>
                 <Route path="/dashboard" element={<Dashboard />} />
+                <Route path="/create-post" element={<CreatePost />} />
               </Route>
             </Routes>
           </div>
