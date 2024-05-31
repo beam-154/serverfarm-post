@@ -52,6 +52,7 @@ services:
     build: ./express
     volumes:
       - ./express:/usr/src/app
+      - /usr/src/app/node_modules
     depends_on:
       - mongodb
       - mysql
@@ -65,6 +66,7 @@ services:
     build: ./kafka_consumer
     volumes:
       - ./kafka_consumer:/usr/src/kafka_consumer
+      - /usr/src/kafka_consumer/node_modules
     depends_on:
       - kafka
     networks:
@@ -74,6 +76,7 @@ services:
     build: ./frontend
     volumes:
       - ./frontend:/usr/src/frontend
+      - /usr/src/frontend/node_modules
     depends_on:
       - express
     ports: 
