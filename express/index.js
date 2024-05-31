@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
+const { connectProducer: connectKafkaProducer } = require('./kafka');
 const app = express();
 const PORT = process.env.PORT || 5000;
 
@@ -21,3 +22,5 @@ app.use('/posts', postsRouter);
 app.listen(PORT, () => {
   console.log('Example app listening on port 3000!');
 });
+
+connectKafkaProducer();

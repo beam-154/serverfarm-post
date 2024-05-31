@@ -1,6 +1,8 @@
 const express = require('express');
 const Post = require('../models/post');
 const { authenticateToken } = require('../auth');
+
+const { sendMessage } = require('../kafka');
 const router = express.Router();
 
 router.post('/', authenticateToken, (req, res) => {
@@ -16,6 +18,7 @@ router.post('/', authenticateToken, (req, res) => {
     .save()
     .then((post) => {
       res.status(201).send(post);
+      sendMessage('posts', `New post created: ${post.title}`);
     })
     .catch((err) => {
       res.status(500).send(err);
