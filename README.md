@@ -22,7 +22,7 @@ To develop a simple back-to-front web application using:
 ### Clone the Repository
 
 ```bash
-git clone https://github.com/beam-154/serverfarm-post.git
+git clone https://github.com/beem-154/serverfarm-post.git
 cd serverfarm-post
 ```
 
